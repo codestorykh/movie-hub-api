@@ -12,6 +12,7 @@ spring:
       ddl-auto: create-drop
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+        #PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+        #dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
     show-sql: false

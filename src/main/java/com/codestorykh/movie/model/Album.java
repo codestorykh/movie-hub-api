@@ -1,6 +1,5 @@
 package com.codestorykh.movie.model;
 
-
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,35 +10,46 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.codestorykh.movie.constant.TableConstant.*;
+
+/**
+ * Represents an album entity containing metadata and relationships
+ * with categories, licenses, and statistics.
+ */
 @Getter
 @Setter
 @ToString
-@Table(name = "t_album")
 @Entity
+@Table(name = T_ALBUM)
 public class Album implements Serializable {
 
     @Id
-    @SequenceGenerator(
-            name = "t_album_sequence",
-            sequenceName = "t_album_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "t_album_sequence"
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String nameEn;
+
     private String nameKh;
+
+    // URL or path to the album logo image
     private String logo;
+
+    // Album rating, e.g., 4.5 stars
     private double rate;
+
+    // Label associated with the album
     private String label;
+
+    // Expiration date of the label
     private LocalDateTime labelExpiredDate;
+
+    // Price of the album
     private double price;
+
+    // Publication status of the album
     private boolean published;
 
-    @ToString.Exclude
+    @ToString.Exclude // Exclude from toString() to prevent infinite recursion
     @OneToMany(
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
             mappedBy = "album"
@@ -48,10 +58,12 @@ public class Album implements Serializable {
 
     public void addAlbumCategory(AlbumCategory albumCategory) {
         albumCategories.add(albumCategory);
+        albumCategory.setAlbum(this); // Maintain bidirectional relationship
     }
 
     public void removeAlbumCategory(AlbumCategory albumCategory) {
-        this.albumCategories.remove(albumCategory);
+        albumCategories.remove(albumCategory);
+        albumCategory.setAlbum(null); // Break bidirectional relationship
     }
 
     @ToString.Exclude
@@ -67,16 +79,14 @@ public class Album implements Serializable {
             name = "video_id",
             nullable = false,
             referencedColumnName = "id",
-            foreignKey = @ForeignKey(
-                    name = "video_album_fk"
-            )
+            foreignKey = @ForeignKey(name = "video_album_fk")
     )
     private Video video;
 
     @ToString.Exclude
     @OneToMany(
-            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
-            mappedBy = "album"
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, // Cascade operations
+            mappedBy = "album" // Field in Statistic that owns the relationship
     )
     private List<Statistic> statistics = new ArrayList<>();
 }

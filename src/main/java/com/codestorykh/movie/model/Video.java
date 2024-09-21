@@ -9,34 +9,46 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.codestorykh.movie.constant.TableConstant.*;
+
+/**
+ * Represents a video entity with episodes and URL.
+ * Associated with a list of albums.
+ */
 @Getter
 @Setter
 @ToString
-@Table(name = "t_video")
 @Entity
+@Table(name = T_VIDEO)
 public class Video implements Serializable {
 
     @Id
-    @SequenceGenerator(
-            name = "t_video_sequence",
-            sequenceName = "t_video_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "t_video_sequence"
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // Video episode number
     private int episode;
+
+    // URL of the video resource
     private String url;
 
-    @ToString.Exclude
+    @ToString.Exclude // Exclude 'albums' from the generated toString() method to prevent recursion
     @OneToMany(
             mappedBy = "video",
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
             orphanRemoval = true,
-            fetch = FetchType.LAZY // lazy loading when we get student we don't get books
+            fetch = FetchType.LAZY
     )
-    private List<Album> albums = new ArrayList<>();
+    private List<Album> albums = new ArrayList<>(); // Initialize the list to avoid NullPointerException
+
+    // Add helper methods for managing albums if needed
+    public void addAlbum(Album album) {
+        albums.add(album);
+        album.setVideo(this); // Set the relationship on both sides
+    }
+
+    public void removeAlbum(Album album) {
+        albums.remove(album);
+        album.setVideo(null); // Break the relationship on both sides
+    }
 }

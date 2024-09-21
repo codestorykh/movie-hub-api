@@ -10,23 +10,17 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.codestorykh.movie.constant.TableConstant.*;
+
 @Getter
 @Setter
 @ToString
-@Table(name = "t_user")
+@Table(name = T_USER)
 @Entity
 public class User implements Serializable {
 
     @Id
-    @SequenceGenerator(
-            name = "t_user_sequence",
-            sequenceName = "t_user_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "t_user_sequence"
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;

@@ -5,33 +5,65 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.io.Serializable;
+
+import static com.codestorykh.movie.constant.TableConstant.*;
+
 @Getter
 @Setter
 @ToString
-@Table(name = "m_statistic")
+@Table(name = M_STATISTIC)
 @Entity
 public class Statistic {
 
-    @EmbeddedId
-    private StatisticId statisticId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Column(name = "click")
+    @Column(name = CLICK)
     private int click;
 
-    @Column(name = "duration")
+    @Column(name = DURATION)
     private double duration;
 
+    // Many statistics can be associated with one user.
+    @ToString.Exclude
     @ManyToOne
-    @MapsId("userId")
-    @JoinColumn(name = "user_id",
-            foreignKey = @ForeignKey(name = "user_id_fk")
-    )
+    @JoinColumn(name = USER_ID, referencedColumnName = ID)
     private User user;
 
+    // Many statistics can be associated with one album.
+    @ToString.Exclude
     @ManyToOne
-    @MapsId("albumId")
-    @JoinColumn(name = "album_id",
-            foreignKey = @ForeignKey(name = "album_id_fk")
-    )
+    @JoinColumn(name = ALBUM_ID, referencedColumnName = ID)
     private Album album;
+
+    @Setter
+    @Getter
+    @Embeddable
+    public static class StatisticId implements Serializable {
+
+        @Column(name = "user_id")
+        private Long userId;
+
+        @Column(name = "album_id")
+        private Long albumId;
+
+        public StatisticId() {
+
+        }
+
+        public StatisticId(Long userId, Long albumId) {
+            this.userId = userId;
+            this.albumId = albumId;
+        }
+
+        @Override
+        public String toString() {
+            return "StatisticId{" +
+                    "userId=" + userId +
+                    ", albumId=" + albumId +
+                    '}';
+        }
+    }
 }
