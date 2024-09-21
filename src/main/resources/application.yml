@@ -1,0 +1,17 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: movie-api-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/movieapi
+    password: password
+    username: codestorykh
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: false

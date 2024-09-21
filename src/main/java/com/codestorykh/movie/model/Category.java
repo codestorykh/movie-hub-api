@@ -31,7 +31,7 @@ public class Category implements Serializable {
 
     private String code;
     private String description;
-    private int order;
+    private int cOrder;
     private Long parentId;
     private int level;
 

@@ -28,5 +28,5 @@ public class Movie implements Serializable {
 
     private String code;
     private String description;
-    private int order;
+    private int mOrder;
 }
