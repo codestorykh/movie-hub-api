@@ -8,11 +8,13 @@ import lombok.ToString;
 import java.io.Serializable;
 import java.util.Objects;
 
+import static com.codestorykh.movie.constant.TableConstant.T_FAVORITE;
+
 @Getter
 @Setter
 @ToString
 @Entity
-@Table(name = "t_favorite")
+@Table(name = T_FAVORITE)
 public class Favorite implements Serializable {
 
     @EmbeddedId

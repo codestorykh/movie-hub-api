@@ -9,12 +9,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.codestorykh.movie.constant.TableConstant.APPROVED_BY;
+import static com.codestorykh.movie.constant.TableConstant.T_ACCOUNT_LICENSE;
+
 
 @Getter
 @Setter
 @ToString
 @Entity
-@Table(name = "t_account_license")
+@Table(name = T_ACCOUNT_LICENSE)
 public class AccountLicense implements Serializable {
 
     @Id
@@ -31,7 +34,7 @@ public class AccountLicense implements Serializable {
     private String status;
 
     // Name or identifier of the person who approved the license
-    @Column(name = "approved_by")
+    @Column(name = APPROVED_BY)
     private String approvedBy;
 
     @ToString.Exclude
@@ -55,8 +58,8 @@ public class AccountLicense implements Serializable {
 
     @ToString.Exclude
     @OneToMany(
-            cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, // Cascade operations
-            mappedBy = "accountLicense" // Field in AlbumLicense entity that owns the relationship
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            mappedBy = "accountLicense"
     )
     private List<AlbumLicense> albumLicenses = new ArrayList<>();
 

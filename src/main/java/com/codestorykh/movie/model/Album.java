@@ -37,16 +37,13 @@ public class Album implements Serializable {
     // Album rating, e.g., 4.5 stars
     private double rate;
 
-    // Label associated with the album
     private String label;
 
-    // Expiration date of the label
     private LocalDateTime labelExpiredDate;
 
     // Price of the album
     private double price;
 
-    // Publication status of the album
     private boolean published;
 
     @ToString.Exclude // Exclude from toString() to prevent infinite recursion
@@ -85,8 +82,8 @@ public class Album implements Serializable {
 
     @ToString.Exclude
     @OneToMany(
-            cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, // Cascade operations
-            mappedBy = "album" // Field in Statistic that owns the relationship
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            mappedBy = "album"
     )
     private List<Statistic> statistics = new ArrayList<>();
 }

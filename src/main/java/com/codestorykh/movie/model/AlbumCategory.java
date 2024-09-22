@@ -9,12 +9,14 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+import static com.codestorykh.movie.constant.TableConstant.T_ALBUM_CATEGORY;
+
 
 @Getter
 @Setter
 @ToString
 @Entity
-@Table(name = "t_album_category")
+@Table(name = T_ALBUM_CATEGORY)
 public class AlbumCategory implements Serializable {
 
     /**
@@ -25,25 +27,25 @@ public class AlbumCategory implements Serializable {
     private AlbumCategoryId albumCategoryId;
 
     @ManyToOne
-    @MapsId("categoryId") // Maps the 'categoryId' part of AlbumCategoryId to the Category entity
+    @MapsId("categoryId")
     @JoinColumn(
             name = "category_id",
-            foreignKey = @ForeignKey(name = "category_id_fk") // Custom foreign key constraint name
+            foreignKey = @ForeignKey(name = "category_id_fk")
     )
     private Category category;
 
     @ManyToOne
-    @MapsId("albumId") // Maps the 'albumId' part of AlbumCategoryId to the Album entity
+    @MapsId("albumId")
     @JoinColumn(
             name = "album_id",
-            foreignKey = @ForeignKey(name = "album_id_fk") // Custom foreign key constraint name
+            foreignKey = @ForeignKey(name = "album_id_fk")
     )
     private Album album;
 
     @Column(
             name = "created_at",
             nullable = false,
-            columnDefinition = "TIMESTAMP WITHOUT TIME ZONE" // SQL column definition
+            columnDefinition = "TIMESTAMP WITHOUT TIME ZONE"
     )
     private LocalDateTime createdAt;
 

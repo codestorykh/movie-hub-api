@@ -39,16 +39,14 @@ public class Video implements Serializable {
             orphanRemoval = true,
             fetch = FetchType.LAZY
     )
-    private List<Album> albums = new ArrayList<>(); // Initialize the list to avoid NullPointerException
-
-    // Add helper methods for managing albums if needed
+    private List<Album> albums = new ArrayList<>();
     public void addAlbum(Album album) {
         albums.add(album);
-        album.setVideo(this); // Set the relationship on both sides
+        album.setVideo(this);
     }
 
     public void removeAlbum(Album album) {
         albums.remove(album);
-        album.setVideo(null); // Break the relationship on both sides
+        album.setVideo(null);
     }
 }

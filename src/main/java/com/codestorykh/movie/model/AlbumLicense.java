@@ -36,68 +36,34 @@ public class AlbumLicense implements Serializable {
     @Column(name = "approved_by")
     private String approvedBy;
 
-    /**
-     * Reference to the AccountLicense entity.
-     *
-     * - @ManyToOne: Many AlbumLicense entities can be associated with a single AccountLicense.
-     * - @MapsId("licenseId"): Maps the 'licenseId' part of AlbumLicenseId to this entity.
-     * - @JoinColumn: Defines the foreign key column and constraint for 'license_id'.
-     */
     @ManyToOne
-    @MapsId("licenseId") // Maps the 'licenseId' part of AlbumLicenseId to AccountLicense
+    @MapsId("licenseId")
     @JoinColumn(
-            name = "license_id", // Name of the foreign key column in the database
-            foreignKey = @ForeignKey(name = "license_id_fk") // Custom foreign key constraint name
+            name = "license_id",
+            foreignKey = @ForeignKey(name = "license_id_fk")
     )
     private AccountLicense accountLicense;
 
-    /**
-     * Reference to the Album entity.
-     *
-     * - @ManyToOne: Many AlbumLicense entities can be associated with a single Album.
-     * - @MapsId("albumId"): Maps the 'albumId' part of AlbumLicenseId to this entity.
-     * - @JoinColumn: Defines the foreign key column and constraint for 'album_id'.
-     */
     @ManyToOne
-    @MapsId("albumId") // Maps the 'albumId' part of AlbumLicenseId to Album
+    @MapsId("albumId")
     @JoinColumn(
-            name = "album_id", // Name of the foreign key column in the database
-            foreignKey = @ForeignKey(name = "album_id_fk") // Custom foreign key constraint name
+            name = "album_id",
+            foreignKey = @ForeignKey(name = "album_id_fk")
     )
     private Album album;
 
-    /**
-     * Reference to the User entity.
-     *
-     * - @ManyToOne: Many AlbumLicense entities can be associated with a single User.
-     * - @MapsId("userId"): Maps the 'userId' part of AlbumLicenseId to this entity.
-     * - @JoinColumn: Defines the foreign key column and constraint for 'user_id'.
-     */
     @ManyToOne
-    @MapsId("userId") // Maps the 'userId' part of AlbumLicenseId to User
+    @MapsId("userId")
     @JoinColumn(
-            name = "user_id", // Name of the foreign key column in the database
-            foreignKey = @ForeignKey(name = "user_id_fk") // Custom foreign key constraint name
+            name = "user_id",
+            foreignKey = @ForeignKey(name = "user_id_fk")
     )
     private User user;
 
-    /**
-     * Default constructor required by JPA.
-     */
     public AlbumLicense() {
     }
 
-    /**
-     * Constructor for creating an AlbumLicense instance with all fields initialized.
-     *
-     * @param albumLicenseId  Composite primary key consisting of album, license, and user IDs.
-     * @param price           Price associated with this license.
-     * @param status          Status of the license.
-     * @param approvedBy      Identifier of the person who approved the license.
-     * @param accountLicense  The AccountLicense entity associated with this AlbumLicense.
-     * @param album           The Album entity associated with this AlbumLicense.
-     * @param user            The User entity associated with this AlbumLicense.
-     */
+
     public AlbumLicense(AlbumLicenseId albumLicenseId, double price, String status,
                         String approvedBy, AccountLicense accountLicense, Album album, User user) {
         this.albumLicenseId = albumLicenseId;
@@ -109,31 +75,16 @@ public class AlbumLicense implements Serializable {
         this.user = user;
     }
 
-    /**
-     * Utility method to associate this AlbumLicense with an AccountLicense.
-     *
-     * @param accountLicense The AccountLicense entity to associate.
-     */
     public void assignAccountLicense(AccountLicense accountLicense) {
         this.accountLicense = accountLicense;
         accountLicense.getAlbumLicenses().add(this);
     }
 
-    /**
-     * Utility method to associate this AlbumLicense with an Album.
-     *
-     * @param album The Album entity to associate.
-     */
     public void assignAlbum(Album album) {
         this.album = album;
         album.getAlbumLicenses().add(this);
     }
 
-    /**
-     * Utility method to associate this AlbumLicense with a User.
-     *
-     * @param user The User entity to associate.
-     */
     public void assignUser(User user) {
         this.user = user;
         user.getAlbumLicenses().add(this);
